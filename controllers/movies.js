@@ -11,7 +11,9 @@ const checkDate = (err, res, errorText) => {
 };
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  const user = req.user._id;
+
+  Movie.find({ owner: user })
     .then((movie) => res.send({ data: movie }))
     .catch(next);
 };

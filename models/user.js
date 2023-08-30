@@ -41,8 +41,6 @@ userSchema.statics.findUserByCredentials = function (email, password, next) {
           throw new UnauthorizedError('Неправильные почта или пароль');
         }
 
-        console.log(user)
-
         return user;
       });
     })

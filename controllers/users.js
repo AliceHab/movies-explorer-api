@@ -43,7 +43,7 @@ module.exports.updateUser = (req, res, next) => {
       new: true,
       runValidators: true,
       upsert: true,
-    }
+    },
   )
     .orFail(new Error('NotValidId'))
     .then((user) => {
@@ -62,28 +62,25 @@ module.exports.updateUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { name, about, avatar, password, email } = req.body;
+  const {
+    name, about, avatar, password, email,
+  } = req.body;
 
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then((user) => {
       const {
         // eslint-disable-next-line no-shadow
-        _id,
-        name,
-        about,
-        avatar,
-        email,
+        _id, name, about, avatar, email,
       } = user;
+      // eslint-disable-next-line no-shadow
       res.status(201).send({
         data: {
           _id,
@@ -117,7 +114,7 @@ module.exports.login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         {
           expiresIn: '7d',
-        }
+        },
       );
 
       res.cookie('jwt', token, {
@@ -129,7 +126,6 @@ module.exports.login = (req, res, next) => {
       return res.status(200).send({ user });
     })
     .catch((err) => {
-      console.log(err);
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Ошибка в данных');
       } else {

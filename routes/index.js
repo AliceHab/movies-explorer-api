@@ -17,7 +17,7 @@ router.patch(
       name: Joi.string().min(2).max(30),
     }),
   }),
-  updateUser
+  updateUser,
 );
 
 router.get('/movies', getMovies);
@@ -29,7 +29,7 @@ router.delete(
       movieId: Joi.string().length(24).hex().required(),
     }),
   }),
-  deleteMovie
+  deleteMovie,
 );
 
 router.post(
@@ -49,7 +49,7 @@ router.post(
       nameEN: Joi.string().required(),
     }),
   }),
-  createMovie
+  createMovie,
 );
 
 module.exports = router;

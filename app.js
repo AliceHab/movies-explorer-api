@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const helmet = require('helmet');
 const cors = require('cors');
-const limiter = require('./rate-limiter-conf');
 const cookieParser = require('cookie-parser');
+const limiter = require('./rate-limiter-conf');
 
 const NotFoundError = require('./errors/not-found-err');
 
@@ -26,7 +26,7 @@ app.use(
   cors({
     origin: ['http://localhost:3000', 'https://alicehab.nomoreparties.co'],
     credentials: true,
-  })
+  }),
 );
 
 app.use(bodyParser.json());
@@ -50,7 +50,7 @@ app.post(
       password: Joi.string().required(),
     }),
   }),
-  createUser
+  createUser,
 );
 app.post(
   '/signin',
@@ -60,7 +60,7 @@ app.post(
       password: Joi.string().required(),
     }),
   }),
-  login
+  login,
 );
 app.get('/signout', signOut);
 
