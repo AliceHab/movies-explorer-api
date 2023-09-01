@@ -3,10 +3,16 @@ const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-req-err');
 const ForbiddenError = require('../errors/forbidden-err');
 
+const {
+  NOT_FOUND_ERR,
+  BAD_REQ_ERR,
+  FORBIDDEN_ERR,
+} = require('../utils/constants');
+
 // eslint-disable-next-line no-unused-vars
-const checkDate = (err, res, errorText) => {
+const checkDate = (err, res) => {
   if (err.name === 'ValidationError') {
-    throw new BadRequestError('Ошибка в данных');
+    throw new BadRequestError(BAD_REQ_ERR);
   }
 };
 
@@ -24,9 +30,9 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Карточка не найдена');
+        throw new NotFoundError(NOT_FOUND_ERR);
       } else if (!(movie.owner.toString() === user)) {
-        throw new ForbiddenError('Ошибка аутентификации');
+        throw new ForbiddenError(FORBIDDEN_ERR);
       } else {
         Movie.findByIdAndRemove(req.params.movieId)
           .then((deletedMovie) => {
@@ -34,7 +40,7 @@ module.exports.deleteMovie = (req, res, next) => {
           })
           .catch((err) => {
             if (err.kind === 'ObjectId') {
-              throw new BadRequestError('Ошибка в данных');
+              throw new BadRequestError(BAD_REQ_ERR);
             }
             next(err);
           });
@@ -76,7 +82,7 @@ module.exports.createMovie = (req, res, next) => {
   })
     .then((movie) => res.status(201).send({ data: movie }))
     .catch((err) => {
-      checkDate(err, res, 'Переданы некорректные данные при создании фильма');
+      checkDate(err, res);
       next(err);
     })
     .catch(next);

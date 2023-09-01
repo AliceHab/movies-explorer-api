@@ -1,72 +1,77 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
+const {
+  MOVIE_REQUIRED_MESSAGES,
+  MOVIE_VALIDATE_MESSAGES,
+} = require('../utils/constants');
+
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
-    required: [true, 'Поле "country" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.COUNTRY],
   },
   director: {
     type: String,
-    required: [true, 'Поле "director" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.DIRECTOR],
   },
   duration: {
     type: Number,
-    required: [true, 'Поле "duration" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.DURATION],
   },
   year: {
     type: String,
-    required: [true, 'Поле "year" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.YEAR],
   },
   description: {
     type: String,
-    required: [true, 'Поле "description" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.DESCRIPTION],
   },
   image: {
     type: String,
-    required: [true, 'Поле "image" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.IMAGE],
     validate: {
       validator(v) {
         return validator.isURL(v);
       },
-      message: (props) => `${props.value} неверный формат ссылки`,
+      message: (props) => `${props.value} - ${MOVIE_VALIDATE_MESSAGES.IMAGE}`,
     },
   },
   trailerLink: {
     type: String,
-    required: [true, 'Поле "trailerLink" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.TRAILER_LINK],
     validate: {
       validator(v) {
         return validator.isURL(v);
       },
-      message: (props) => `${props.value} неверный формат ссылки`,
+      message: (props) => `${props.value} - ${MOVIE_VALIDATE_MESSAGES.TRAILER.LINK}`,
     },
   },
   thumbnail: {
     type: String,
-    required: [true, 'Поле "thumbnail" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.THUMBNAIL],
     validate: {
       validator(v) {
         return validator.isURL(v);
       },
-      message: (props) => `${props.value} неверный формат ссылки`,
+      message: (props) => `${props.value} - ${MOVIE_VALIDATE_MESSAGES.THUMBNAIL}`,
     },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    required: [true, 'Поле "owner" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.OWNER],
   },
   movieId: {
     type: String,
-    required: [true, 'Поле "movieId" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.MOVIE_ID],
   },
   nameRU: {
     type: String,
-    required: [true, 'Поле "nameRU" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.NAME_RU],
   },
   nameEN: {
     type: String,
-    required: [true, 'Поле "nameEN" должно быть заполнено'],
+    required: [true, MOVIE_REQUIRED_MESSAGES.NAME_EN],
   },
 });
 

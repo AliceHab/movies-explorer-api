@@ -8,6 +8,13 @@ const BadRequestError = require('../errors/bad-req-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
 const ConflictError = require('../errors/conflict-err');
 
+const {
+  NOT_FOUND_ERR,
+  BAD_REQ_ERR,
+  UNAUTHORIZED_ERR,
+  CONFLICT_ERR,
+} = require('../utils/constants');
+
 require('dotenv').config();
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -22,9 +29,9 @@ module.exports.getCurrentUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        throw new NotFoundError('Пользователь не найден');
+        throw new NotFoundError(NOT_FOUND_ERR);
       } else if (err.kind === 'ObjectId') {
-        throw new BadRequestError('Ошибка в данных');
+        throw new BadRequestError(BAD_REQ_ERR);
       } else {
         next(err);
       }
@@ -51,9 +58,9 @@ module.exports.updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        throw new NotFoundError('Пользователь не найден');
+        throw new NotFoundError(NOT_FOUND_ERR);
       } else if (err.name === 'ValidationError') {
-        throw new BadRequestError('Ошибка в данных');
+        throw new BadRequestError(BAD_REQ_ERR);
       } else {
         next(err);
       }
@@ -94,10 +101,10 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       // eslint-disable-next-line no-underscore-dangle
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Ошибка в данных');
+        throw new BadRequestError(BAD_REQ_ERR);
       }
       if (err.code === 11000) {
-        throw new ConflictError('Почта занята');
+        throw new ConflictError(CONFLICT_ERR);
       }
       next(err);
     })
@@ -127,9 +134,9 @@ module.exports.login = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Ошибка в данных');
+        throw new BadRequestError(BAD_REQ_ERR);
       } else {
-        throw new UnauthorizedError('Ошибка аутентификации');
+        throw new UnauthorizedError(UNAUTHORIZED_ERR);
       }
     })
     .catch(next);

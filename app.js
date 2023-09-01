@@ -20,11 +20,13 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 
-const { PORT = 3000, DB_URL } = process.env;
+const { DB_URL, DEFAULT_PORT, ALLOWED_DOMAINS } = require('./utils/constants');
+
+const { PORT = DEFAULT_PORT } = process.env;
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://alicehab.nomoreparties.co'],
+    origin: ALLOWED_DOMAINS,
     credentials: true,
   }),
 );
