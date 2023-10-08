@@ -40,12 +40,12 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.updateUser = (req, res, next) => {
-  const { name, about } = req.body;
+  const { name, email } = req.body;
   const owner = req.user._id;
 
   User.findByIdAndUpdate(
     owner,
-    { name, about },
+    { name, email },
     {
       new: true,
       runValidators: true,
@@ -70,17 +70,17 @@ module.exports.updateUser = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   const {
-    name, about, avatar, password, email,
+    name,
+    about,
+    avatar,
+    password,
+    email,
   } = req.body;
 
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
+      name, about, avatar, email, password: hash,
     }))
     .then((user) => {
       const {
@@ -126,8 +126,8 @@ module.exports.login = (req, res, next) => {
 
       res.cookie('jwt', token, {
         maxAge: 604900,
-        httpOnly: true,
-        sameSite: true,
+        // httpOnly: true,
+        // sameSite: true,
       });
 
       return res.status(200).send({ user });

@@ -15,6 +15,7 @@ router.patch(
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().min(2).max(30),
+      email: Joi.string().email().required(),
     }),
   }),
   updateUser,
@@ -41,9 +42,9 @@ router.post(
       duration: Joi.number().required(),
       year: Joi.number().required(),
       description: Joi.string().required(),
-      image: Joi.string().required().pattern(linkRegExp),
+      image: Joi.string().required(),
       trailerLink: Joi.string().required().pattern(linkRegExp),
-      thumbnail: Joi.string().required().pattern(linkRegExp),
+      thumbnail: Joi.string().required(),
       movieId: Joi.number().required(),
       nameRU: Joi.string().required(),
       nameEN: Joi.string().required(),
