@@ -30,12 +30,6 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: [true, MOVIE_REQUIRED_MESSAGES.IMAGE],
-    validate: {
-      validator(v) {
-        return validator.isURL(v);
-      },
-      message: (props) => `${props.value} - ${MOVIE_VALIDATE_MESSAGES.IMAGE}`,
-    },
   },
   trailerLink: {
     type: String,
@@ -50,12 +44,6 @@ const movieSchema = new mongoose.Schema({
   thumbnail: {
     type: String,
     required: [true, MOVIE_REQUIRED_MESSAGES.THUMBNAIL],
-    validate: {
-      validator(v) {
-        return validator.isURL(v);
-      },
-      message: (props) => `${props.value} - ${MOVIE_VALIDATE_MESSAGES.THUMBNAIL}`,
-    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
