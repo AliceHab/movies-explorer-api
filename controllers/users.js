@@ -147,7 +147,8 @@ module.exports.signOut = (req, res, next) => {
   res.clearCookie('jwt', {
     maxAge: 604900,
     httpOnly: true,
-    sameSite: true,
+    sameSite: 'None',
+    secure: true,
   });
 
   res.status(200).send({ message: 'Cookie cleared' }).catch(next);
